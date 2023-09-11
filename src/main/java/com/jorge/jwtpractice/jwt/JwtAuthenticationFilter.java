@@ -28,10 +28,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
         final String token = getTokenFromRequest(request);                  // * GET TOKEN
-        final String userEmail = jwtService.getUsernameFromToken(token);    // ? FIND USERNAME with TOKEN
-                                                                            // If null throws exception because TOKEN can't be parsed in JwtService
 
-        if(token != null && SecurityContextHolder.getContext().getAuthentication() == null){
+        if(token == null){
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        final String userEmail = jwtService.getUsernameFromToken(token);    // ? FIND USERNAME with TOKEN
+        // If null throws exception because TOKEN can't be parsed in JwtService
+
+        if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails userAuthenticated = userDetailsService.loadUserByUsername(userEmail); // ! Trigger Auth method | It was configured on ApplicationConfig
             if(jwtService.isTokenValid(token, userAuthenticated)){ // If Token belongs to User and it's not expired
                 UsernamePasswordAuthenticationToken authtoken = new UsernamePasswordAuthenticationToken(
@@ -48,9 +54,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private String getTokenFromRequest(HttpServletRequest request) {
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if(authHeader == null || !authHeader.startsWith("Bearer ")){
-            return null;
+        if(authHeader != null && authHeader.startsWith("Bearer ")){
+            return authHeader.substring(7);
         }
-        return authHeader.substring(7);
+        return null;
     }
 }

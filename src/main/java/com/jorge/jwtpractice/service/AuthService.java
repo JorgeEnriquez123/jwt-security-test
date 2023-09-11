@@ -21,12 +21,16 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     public AuthResponse login(LoginRequest request){
-        UsernamePasswordAuthenticationToken authtoken = new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword());
-        auth.authenticate(authtoken); //Throws exception if not authenticated
-        var user = repository.findByEmail(request.getEmail()).orElseThrow();
-        return AuthResponse.builder()
-                .token(jwtService.getToken(user))
-                .build();
+        try {
+            UsernamePasswordAuthenticationToken authtoken = new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword());
+            auth.authenticate(authtoken); //Throws exception if not authenticated
+            var user = repository.findByEmail(request.getEmail()).orElseThrow();
+            return AuthResponse.builder()
+                    .token(jwtService.getToken(user))
+                    .build();
+        }catch (Exception e){
+            return AuthResponse.builder().token("Invalid credentials").build();
+        }
     }
 
     public AuthResponse register(RegisterRequest request){

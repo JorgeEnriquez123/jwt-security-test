@@ -39,9 +39,10 @@ public class AuthService {
                 .lastname(request.getLastname())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER)
+                .role(request.getRole())
                 .build();
         repository.save(user);
+        //System.out.println(usersaved.getAuthorities());
         return AuthResponse.builder()
                 .token(jwtService.getToken(user))
                 .build();

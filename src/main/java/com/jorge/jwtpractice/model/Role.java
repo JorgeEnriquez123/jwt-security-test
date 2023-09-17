@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 
 import static com.jorge.jwtpractice.model.Permission.*;
 @RequiredArgsConstructor
-
 public enum Role {
     USER(Collections.emptySet()),
     ADMIN(
@@ -32,9 +31,7 @@ public enum Role {
                     MANAGER_UPDATE,
                     MANAGER_DELETE
             )
-    )
-    ;
-
+    );
     @Getter
     private final Set<Permission> permissions;
 

@@ -41,8 +41,8 @@ public class AuthService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(request.getRole())
                 .build();
-        repository.save(user);
-        //System.out.println(usersaved.getAuthorities());
+        var usersaved = repository.save(user);
+        System.out.println(usersaved.getAuthorities());
         return AuthResponse.builder()
                 .token(jwtService.getToken(user))
                 .build();

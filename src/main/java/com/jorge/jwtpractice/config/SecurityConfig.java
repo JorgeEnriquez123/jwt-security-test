@@ -33,16 +33,18 @@ public class SecurityConfig {
                         .requestMatchers(DELETE, "manager/**").hasAnyAuthority(ADMIN_DELETE.name(), MANAGER_DELETE.name())
 
                         .requestMatchers("/manager/**").hasAnyRole(ADMIN.name(), MANAGER.name())*/
+                        .requestMatchers("/v3/**", "/swagger-ui/**").permitAll()
 
-                        .requestMatchers(GET, "/admin/**").hasAuthority(ADMIN_READ.name())
-                        .requestMatchers(POST, "/admin/**").hasAuthority(ADMIN_CREATE.name())
-                        .requestMatchers(PUT, "/admin/**").hasAuthority(ADMIN_UPDATE.name())
-                        .requestMatchers(DELETE, "/admin/**").hasAuthority(ADMIN_DELETE.name())
+                        .requestMatchers(GET, "/api/v1/admin/**").hasAuthority(ADMIN_READ.name())
+                        .requestMatchers(POST, "/api/v1/admin/**").hasAuthority(ADMIN_CREATE.name())
+                        .requestMatchers(PUT, "/api/v1/admin/**").hasAuthority(ADMIN_UPDATE.name())
+                        .requestMatchers(DELETE, "/api/v1/admin/**").hasAuthority(ADMIN_DELETE.name())
 
-                        .requestMatchers("/admin/**").hasRole(ADMIN.name())
+                        .requestMatchers("/api/v1/admin/**").hasRole(ADMIN.name())
 
-                        .requestMatchers(GET, "/basic/specialmessage").hasAuthority(USER_READ_SPECIAL.name())
-                        .requestMatchers("/basic/publicmessage").permitAll()
+                        .requestMatchers(GET, "/api/v1/basic/specialmessage").hasAuthority(USER_READ_SPECIAL.name())
+                        .requestMatchers("/api/v1/basic/publicmessage").permitAll()
+
 
                         .anyRequest().authenticated()
                 )

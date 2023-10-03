@@ -13,7 +13,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static com.jorge.jwtpractice.model.Permission.*;
-import static com.jorge.jwtpractice.model.Role.*;
+import static com.jorge.jwtpractice.model.Role.ADMIN;
 import static org.springframework.http.HttpMethod.*;
 
 @Configuration
@@ -43,7 +43,7 @@ public class SecurityConfig {
 
                         .requestMatchers(GET, "/basic/specialmessage").hasAuthority(USER_READ_SPECIAL.name())
                         .requestMatchers("/basic/publicmessage").permitAll()
-
+                        .requestMatchers("/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sessionManagement ->

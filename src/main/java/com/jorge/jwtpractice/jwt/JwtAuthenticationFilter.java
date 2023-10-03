@@ -1,6 +1,5 @@
 package com.jorge.jwtpractice.jwt;
 
-import com.jorge.jwtpractice.repository.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

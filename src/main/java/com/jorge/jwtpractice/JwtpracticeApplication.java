@@ -1,8 +1,5 @@
 package com.jorge.jwtpractice;
 
-import com.jorge.jwtpractice.jwt.JwtService;
-import com.jorge.jwtpractice.model.Role;
-import com.jorge.jwtpractice.model.User;
 import com.jorge.jwtpractice.model.dto.RegisterRequest;
 import com.jorge.jwtpractice.repository.UserRepository;
 import com.jorge.jwtpractice.service.AuthService;
@@ -10,9 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
-
-import java.util.List;
 
 import static com.jorge.jwtpractice.model.Role.*;
 

@@ -1,7 +1,6 @@
 package com.jorge.jwtpractice.service;
 
 import com.jorge.jwtpractice.jwt.JwtService;
-import com.jorge.jwtpractice.model.Role;
 import com.jorge.jwtpractice.model.User;
 import com.jorge.jwtpractice.model.dto.AuthResponse;
 import com.jorge.jwtpractice.model.dto.LoginRequest;
@@ -12,6 +11,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import static com.jorge.jwtpractice.model.Role.USER;
 
 @Service
 @RequiredArgsConstructor
@@ -34,15 +35,16 @@ public class AuthService {
     }
 
     public AuthResponse register(RegisterRequest request){
+        var roleFromRequest = request.getRole();
         var user = User.builder()
                 .firstname(request.getFirstname())
                 .lastname(request.getLastname())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(request.getRole())
+                .role(roleFromRequest == null ? USER : roleFromRequest)
                 .build();
         var usersaved = repository.save(user);
-        System.out.println(usersaved.getAuthorities());
+        System.out.println(usersaved.getAuthorities()); // Just extra info
         return AuthResponse.builder()
                 .token(jwtService.getToken(user))
                 .build();

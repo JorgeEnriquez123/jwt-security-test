@@ -1,6 +1,5 @@
 package com.jorge.jwtpractice.model;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
